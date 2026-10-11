@@ -139,14 +139,14 @@ export default function App() {
         <div className="brand-wrap">
           <div className="brand-mark" aria-label="Nexus logo">
             <svg width="26" height="26" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="120" height="120" rx="30" fill="url(#paint0_linear_1_2)"/>
-              <path d="M32 86V34H42L60 64L78 34H88V86H78V53.5L62.4 80H57.6L42 53.5V86H32Z" fill="white"/>
-              <circle cx="88" cy="33" r="10" fill="#6EE7FF" fillOpacity="0.9"/>
+              <rect width="120" height="120" rx="30" fill="url(#paint0_linear_1_2)" />
+              <path d="M32 86V34H42L60 64L78 34H88V86H78V53.5L62.4 80H57.6L42 53.5V86H32Z" fill="white" />
+              <circle cx="88" cy="33" r="10" fill="#6EE7FF" fillOpacity="0.9" />
               <defs>
                 <linearGradient id="paint0_linear_1_2" x1="10" y1="8" x2="100" y2="112" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#6EE7FF"/>
-                  <stop offset="0.5" stopColor="#60A5FA"/>
-                  <stop offset="1" stopColor="#8B5CF6"/>
+                  <stop stopColor="#6EE7FF" />
+                  <stop offset="0.5" stopColor="#60A5FA" />
+                  <stop offset="1" stopColor="#8B5CF6" />
                 </linearGradient>
               </defs>
             </svg>
@@ -175,8 +175,8 @@ export default function App() {
           <div className="search-line">
             <div className="search-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10.5 18C14.6421 18 18 14.6421 18 10.5C18 6.35786 14.6421 3 10.5 3C6.35786 3 3 6.35786 3 10.5C3 14.6421 6.35786 18 10.5 18Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M16 16L21 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M10.5 18C14.6421 18 18 14.6421 18 10.5C18 6.35786 14.6421 3 10.5 3C6.35786 3 3 6.35786 3 10.5C3 14.6421 6.35786 18 10.5 18Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M16 16L21 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
 
