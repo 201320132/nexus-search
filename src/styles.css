@@ -1,282 +1,530 @@
-import { useMemo, useState } from 'react';
-
-const filters = ['All', 'News', 'Images', 'Videos', 'Maps', 'Shopping'];
-
-const trendingTopics = [
-  'AI search trends',
-  'Sustainable design',
-  'Cybersecurity tools',
-  'Space tourism',
-  'Frontend architecture',
-  'Smart home devices',
-  'Next-gen startups'
-];
-
-const querySeed = {
-  ai: {
-    title: 'How AI search works in modern search engines',
-    answer:
-      'AI search blends semantic understanding, ranking models, and retrieval systems to interpret intent, score relevance, and summarize the best sources. The result is a faster, more context-aware answer that feels conversational while still grounded in real web data.',
-    bullets: [
-      { label: 'Intent', value: 'Understands user meaning beyond keywords' },
-      { label: 'Retrieval', value: 'Finds the most relevant sources across the web' },
-      { label: 'Ranking', value: 'Orders results by trust, freshness, and usefulness' }
-    ]
-  },
-  design: {
-    title: 'What makes a premium dark mode interface feel modern?',
-    answer:
-      'A premium dark interface combines contrast, subtle gradients, careful spacing, and layered depth. It should guide attention with clear hierarchy, keep text readable, and use accent lighting to highlight actions without overwhelming the user.',
-    bullets: [
-      { label: 'Contrast', value: 'High readability with balanced low-light surfaces' },
-      { label: 'Depth', value: 'Layered shadows and gradients for focus and flow' },
-      { label: 'Motion', value: 'Smooth transitions that feel responsive and polished' }
-    ]
-  },
-  default: {
-    title: 'The most relevant answer for your search',
-    answer:
-      'Nexus combines a strong ranking system with AI summarization to help users get concise, relevant answers quickly. Instead of dumping raw links, it surfaces the key facts, key sources, and the best next step in a clean, modern dashboard.',
-    bullets: [
-      { label: 'Search', value: 'Fast relevance matching across indexed sources' },
-      { label: 'AI', value: 'Context-rich summaries and answer synthesis' },
-      { label: 'UX', value: 'Premium visual design that keeps users focused' }
-    ]
-  }
-};
-
-const resultTemplates = [
-  {
-    title: 'Designing conversational AI search experiences that feel natural',
-    url: 'www.nexus.ai/insights/conversational-search',
-    snippet:
-      'Learn how retrieval, summarization, and ranking systems work together to create helpful AI answers rather than generic search results.',
-    type: 'Research'
-  },
-  {
-    title: 'The future of dark-mode interfaces and product storytelling',
-    url: 'www.designjournal.com/ux/dark-mode-is-not-just-a-theme',
-    snippet:
-      'Dark interfaces remain highly effective when they preserve hierarchy, readability, and emotional clarity through careful color design.',
-    type: 'Article'
-  },
-  {
-    title: 'Top AI tools for productivity and knowledge discovery in 2026',
-    url: 'www.productivitylabs.io/ai-tools',
-    snippet:
-      'A curated view of the most effective AI experiences for research, ideation, summarization, and action planning in everyday workflows.',
-    type: 'Guide'
-  },
-  {
-    title: 'How search engines use ranking signals to improve trust and quality',
-    url: 'www.searchsystems.org/quality-ranking',
-    snippet:
-      'Understanding relevance, freshness, authority, and click behavior helps build systems that return more useful results to users.',
-    type: 'Reference'
-  },
-  {
-    title: 'Building premium product experiences with motion and contrast',
-    url: 'www.interaction.design/ux/premium-ui',
-    snippet:
-      'The best interfaces feel effortless because every visual decision supports clarity, trust, and a strong sense of flow.',
-    type: 'Case study'
-  }
-];
-
-function generateAIAnswer(query) {
-  const normalized = query.toLowerCase();
-
-  if (normalized.includes('ai') || normalized.includes('search')) {
-    return querySeed.ai;
-  }
-
-  if (normalized.includes('design') || normalized.includes('ui') || normalized.includes('dark')) {
-    return querySeed.design;
-  }
-
-  return querySeed.default;
+* {
+  box-sizing: border-box;
 }
 
-function buildResults(query) {
-  const keywords = query.trim().toLowerCase();
-
-  if (!keywords) {
-    return resultTemplates;
-  }
-
-  return resultTemplates.map((result, index) => ({
-    ...result,
-    title: result.title.includes('AI') || keywords.includes('ai') ? result.title : result.title,
-    snippet:
-      index % 2 === 0
-        ? `Results for “${query}” are ranked using relevance, trust, and freshness signals to deliver a cleaner, more helpful answer in context.`
-        : result.snippet,
-    type: index % 2 === 0 ? 'Featured' : result.type
-  }));
+:root {
+  color-scheme: dark;
+  --bg: #070b14;
+  --bg-elevated: rgba(18, 24, 36, 0.82);
+  --bg-soft: rgba(21, 28, 39, 0.9);
+  --panel: rgba(14, 20, 30, 0.88);
+  --panel-strong: rgba(18, 22, 34, 0.95);
+  --border: rgba(148, 163, 184, 0.14);
+  --text: #edf3ff;
+  --muted: #9aa8bd;
+  --muted-strong: #c7d2ea;
+  --primary: #6ee7ff;
+  --primary-strong: #58a6ff;
+  --purple: #8b5cf6;
+  --green: #34d399;
+  --shadow: rgba(10, 13, 24, 0.55);
 }
 
-export default function App() {
-  const [query, setQuery] = useState('AI search experience');
-  const [activeFilter, setActiveFilter] = useState('All');
-  const [isAiMode, setIsAiMode] = useState(true);
+html {
+  scroll-behavior: smooth;
+}
 
-  const aiOverview = useMemo(() => generateAIAnswer(query), [query]);
-  const results = useMemo(() => buildResults(query), [query]);
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(84, 111, 255, 0.28), transparent 36%),
+    radial-gradient(circle at bottom right, rgba(41, 193, 255, 0.2), transparent 32%),
+    var(--bg);
+  color: var(--text);
+}
 
-  function handleSearch() {
-    if (!query.trim()) {
-      setQuery('AI search experience');
-    }
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  width: min(1420px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 24px 0 40px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 18px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(10, 14, 22, 0.56);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 28px var(--shadow);
+}
+
+.brand-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  border: 1px solid rgba(110, 231, 255, 0.22);
+  background: linear-gradient(135deg, rgba(110, 231, 255, 0.18), rgba(139, 92, 246, 0.18));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.brand-mark svg {
+  width: 26px;
+  height: 26px;
+  display: block;
+}
+
+.brand-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(110, 231, 255, 0.14), rgba(88, 166, 255, 0.18));
+  border: 1px solid rgba(110, 231, 255, 0.2);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.nav-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.nav-links a {
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--text);
+}
+
+.top-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.primary-mini,
+.secondary-mini,
+.search-button,
+.magic-toggle,
+.chip,
+.trend-pill {
+  transition: all 0.2s ease;
+}
+
+.primary-mini,
+.secondary-mini {
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(19, 26, 39, 0.9);
+  color: var(--text);
+}
+
+.primary-mini {
+  background: linear-gradient(135deg, rgba(108, 201, 255, 0.2), rgba(139, 92, 246, 0.2));
+  border-color: rgba(110, 231, 255, 0.2);
+}
+
+.primary-mini:hover,
+.secondary-mini:hover,
+.search-button:hover,
+.magic-toggle:hover,
+.chip:hover,
+.trend-pill:hover {
+  transform: translateY(-1px);
+}
+
+.search-page {
+  padding-top: 26px;
+}
+
+.search-board {
+  padding: 22px 22px 18px;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  background: rgba(12, 17, 25, 0.72);
+  box-shadow: 0 22px 40px rgba(5, 8, 15, 0.46);
+}
+
+.search-line {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 166px 140px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px 12px 10px;
+  background: rgba(17, 22, 30, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 22px;
+}
+
+.search-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+
+.search-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.search-line input {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 1.05rem;
+  outline: none;
+}
+
+.search-line input::placeholder {
+  color: var(--muted);
+}
+
+.magic-toggle,
+.search-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(18, 24, 33, 0.9);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.magic-toggle {
+  background: linear-gradient(135deg, rgba(110, 231, 255, 0.12), rgba(139, 92, 246, 0.12));
+  border-color: rgba(110, 231, 255, 0.22);
+}
+
+.sparkle {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.search-button {
+  background: linear-gradient(135deg, #60a5fa, #8b5cf6 55%, #d946ef);
+  border: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(18, 24, 32, 0.8);
+  color: var(--muted-strong);
+}
+
+.chip.active {
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.12), rgba(139, 92, 246, 0.12));
+  border-color: rgba(96, 165, 250, 0.32);
+  color: var(--text);
+}
+
+.suggestions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.trend-pill {
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(17, 22, 31, 0.82);
+  color: var(--muted-strong);
+}
+
+.results-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(260px, 0.65fr);
+  gap: 22px;
+  margin-top: 24px;
+}
+
+.results-column,
+.sidebar-column {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.card-surface {
+  background: rgba(14, 19, 28, 0.82);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  box-shadow: 0 20px 36px rgba(1, 5, 12, 0.32);
+}
+
+.ai-overview {
+  padding: 22px 22px 18px;
+}
+
+.section-kicker {
+  display: inline-flex;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(110, 231, 255, 0.22);
+  background: rgba(110, 231, 255, 0.08);
+  color: var(--primary);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.ai-overview h2 {
+  margin: 16px 0 12px;
+  font-size: clamp(1.5rem, 2vw, 2.3rem);
+  letter-spacing: -0.06em;
+}
+
+.ai-overview p {
+  margin: 0;
+  color: var(--muted-strong);
+  line-height: 1.7;
+  max-width: 70ch;
+}
+
+.fact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.fact-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 14px 16px;
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 16px;
+  background: rgba(17, 24, 34, 0.82);
+}
+
+.fact-box span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.fact-box strong {
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted-strong);
+  font-weight: 600;
+  padding: 0 2px;
+}
+
+.meta-status {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.82rem;
+}
+
+.result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.result-item {
+  padding: 18px 18px 16px;
+}
+
+.result-url-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.result-type {
+  display: inline-flex;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  color: var(--green);
+}
+
+.result-item h3 {
+  margin: 12px 0 8px;
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  letter-spacing: -0.04em;
+}
+
+.result-item p {
+  margin: 0;
+  color: var(--muted-strong);
+  line-height: 1.7;
+}
+
+.result-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.mini-panel {
+  padding: 18px 18px 16px;
+}
+
+.mini-panel h3 {
+  margin: 16px 0 14px;
+  font-size: 1.3rem;
+  letter-spacing: -0.05em;
+}
+
+.stat-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.stat-stack div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 12px;
+  border-radius: 12px;
+  background: rgba(16, 23, 32, 0.76);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.stat-stack span {
+  color: var(--muted);
+}
+
+.stat-stack strong {
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+.faq-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.faq-list li {
+  padding: 12px 12px;
+  border-radius: 12px;
+  background: rgba(16, 23, 32, 0.76);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  color: var(--muted-strong);
+  line-height: 1.6;
+}
+
+@media (max-width: 980px) {
+  .topbar {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
-  function handleSuggestion(value) {
-    setQuery(value);
+  .results-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .app-shell {
+    width: min(100% - 20px, 1420px);
+    padding-top: 14px;
   }
 
-  return (
-    <div className="app-shell">
-      <header className="topbar">
-        <div className="brand-wrap">
-          <div className="brand-mark" aria-label="Nexus logo">
-            <img src="/logo.svg" alt="Nexus logo" />
-          </div>
-          <div className="brand-copy">
-            <span className="brand-name">Nexus</span>
-            <span className="brand-badge">AI</span>
-          </div>
-        </div>
+  .nav-links,
+  .top-actions {
+    width: 100%;
+    justify-content: center;
+  }
 
-        <nav className="nav-links" aria-label="Main navigation">
-          <a href="#">Discover</a>
-          <a href="#">News</a>
-          <a href="#">Images</a>
-          <a href="#">Maps</a>
-        </nav>
+  .search-line {
+    grid-template-columns: 42px minmax(0, 1fr);
+    padding-right: 12px;
+  }
 
-        <div className="top-actions">
-          <button className="secondary-mini">Workspace</button>
-          <button className="primary-mini">Sign in</button>
-        </div>
-      </header>
+  .search-button,
+  .magic-toggle {
+    height: 44px;
+  }
 
-      <main className="search-page">
-        <div className="search-board">
-          <div className="search-line">
-            <div className="search-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10.5 18C14.6421 18 18 14.6421 18 10.5C18 6.35786 14.6421 3 10.5 3C6.35786 3 3 6.35786 3 10.5C3 14.6421 6.35786 18 10.5 18Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M16 16L21 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
+  .search-button {
+    grid-column: span 2;
+  }
 
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              aria-label="Search"
-              placeholder="Search anything..."
-            />
-
-            <button className="magic-toggle" onClick={() => setIsAiMode((value) => !value)}>
-              <span className="sparkle">✦</span>
-              {isAiMode ? 'AI mode' : 'Classic'}
-            </button>
-
-            <button className="search-button" onClick={handleSearch}>Search</button>
-          </div>
-
-          <div className="filter-row" aria-label="Search filters">
-            {filters.map((filter) => (
-              <button
-                key={filter}
-                className={filter === activeFilter ? 'chip active' : 'chip'}
-                onClick={() => setActiveFilter(filter)}
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
-
-          <div className="suggestions-row">
-            {trendingTopics.map((topic) => (
-              <button key={topic} onClick={() => handleSuggestion(topic)} className="trend-pill">
-                {topic}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="results-layout">
-          <section className="results-column">
-            <div className="ai-overview card-surface">
-              <div className="section-kicker">AI Overview</div>
-              <h2>{aiOverview.title}</h2>
-              <p>{aiOverview.answer}</p>
-
-              <div className="fact-grid">
-                {aiOverview.bullets.map((item) => (
-                  <div key={item.label} className="fact-box">
-                    <span>{item.label}</span>
-                    <strong>{item.value}</strong>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="results-header">
-              <span>Top results</span>
-              <span className="meta-status">Updated just now</span>
-            </div>
-
-            <div className="result-list">
-              {results.map((result, index) => (
-                <article className="result-item card-surface" key={`${result.url}-${index}`}>
-                  <div className="result-url-row">
-                    <span className="result-type">{result.type}</span>
-                    <span className="result-domain">{result.url}</span>
-                  </div>
-                  <h3>{result.title}</h3>
-                  <p>{result.snippet}</p>
-                  <div className="result-meta">
-                    <span>Relevance {92 - index}%</span>
-                    <span>Trust score {97 - index}</span>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          <aside className="sidebar-column">
-            <div className="mini-panel card-surface">
-              <div className="section-kicker">Insights</div>
-              <h3>Search pulse</h3>
-
-              <div className="stat-stack">
-                <div>
-                  <span>Intent match</span>
-                  <strong>96%</strong>
-                </div>
-                <div>
-                  <span>Source quality</span>
-                  <strong>89%</strong>
-                </div>
-                <div>
-                  <span>Freshness</span>
-                  <strong>94%</strong>
-                </div>
-              </div>
-            </div>
-
-            <div className="mini-panel card-surface">
-              <div className="section-kicker">People also ask</div>
-              <ul className="faq-list">
-                <li>What makes AI search more accurate than keyword search?</li>
-                <li>How do ranking models decide what appears first?</li>
-                <li>Can AI search present concise answers without losing context?</li>
-              </ul>
-            </div>
-          </aside>
-        </div>
-      </main>
-    </div>
-  );
+  .fact-grid {
+    grid-template-columns: 1fr;
+  }
 }
